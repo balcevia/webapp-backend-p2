@@ -2,15 +2,14 @@ package webapp.mappers
 
 import java.time.LocalDate
 
-import webapp.model.packages.PackageDTO
-import webapp.model.packages.Package
+import webapp.model.packages.{Package, PackageDTO, PackageStatus}
 
 /**
   * Created by Alfred on 07.02.2021.
   */
 trait PackageMapper {
 
-  def toDomain(pckg: PackageDTO, userId: Long): Package = Package(
+  def toDomain(pckg: PackageDTO, userId: Long, status: PackageStatus): Package = Package(
     id = pckg.id,
     userId = userId,
     senderName = pckg.senderName.get,
@@ -23,7 +22,9 @@ trait PackageMapper {
     receiverPhoneNumber = pckg.receiverPhoneNumber.get,
     image = pckg.image.get,
     creationDate = pckg.creationDate.getOrElse(LocalDate.now),
-    attachmentPath = None
+    attachmentPath = None,
+    status = status,
+    courierId = None
   )
 
   def toDTO(pckg: Package): PackageDTO = PackageDTO(
@@ -38,7 +39,8 @@ trait PackageMapper {
     receiverAddress = Some(pckg.receiverAddress),
     receiverPhoneNumber = Some(pckg.receiverPhoneNumber),
     image = Some(pckg.image),
-    creationDate = Some(pckg.creationDate)
+    creationDate = Some(pckg.creationDate),
+    status = Some(pckg.status)
   )
 }
 

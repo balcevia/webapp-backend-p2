@@ -16,7 +16,7 @@ trait UserService {
   def createNewUser(request: UserDTO)(implicit ec: ExecutionContext): Future[Unit] = {
     val salt = passwordHash.generateSalt()
     val hashedPassword = passwordHash.generateHash(request.password.get, salt)
-    val user = User(None, request.email.get, hashedPassword, salt, 0)
+    val user = User(None, request.email.get, hashedPassword, salt, 0, UserRole.Sender)
 
     val userDetails = UserDetails(
       id = None,

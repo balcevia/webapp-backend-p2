@@ -14,6 +14,8 @@ import akka.http.scaladsl.server.Directives._
 import webapp.AppRejectionHandler.AuthFailedRejection
 import webapp.api.{ErrorResponse, OkResponse}
 import webapp.auth.AuthToken
+import webapp.exception.{AuthenticationException, BadRoleRejection}
+import webapp.model.user.UserRole
 import webapp.service.SessionService
 import webapp.utils.JsonUtils
 
@@ -68,6 +70,14 @@ trait AppDirectives {
     extractToken flatMap {
       case Some(token) => provide(token)
       case _ => reject(AuthFailedRejection("No valid user found!"))
+    }
+  }
+
+  def withRole(roles: Set[UserRole]): Directive1[AuthToken] = authenticatedRequests.flatMap { token =>
+    if(roles.contains(token.role)) {
+      provide(token)
+    } else {
+      reject(BadRoleRejection("bad role"))
     }
   }
 

@@ -26,8 +26,8 @@ trait SessionService {
 
   private def buildNewToken(user: User): AuthToken = {
     val expirationDate = LocalDateTime.now().plusMinutes(5)
-    val token = jwtTokenService.generateToken(JwtTokenClaim(user.id.get, user.email, expirationDate))
-    AuthToken(user.id.get, user.email, token)
+    val token = jwtTokenService.generateToken(JwtTokenClaim(user.id.get, user.email, expirationDate, user.role))
+    AuthToken(user.id.get, user.email, token, user.role)
   }
 
   def generateNewToken(userId: Long)(implicit ec: ExecutionContext): Future[AuthToken] = {
@@ -59,7 +59,7 @@ trait SessionService {
   }
 
   def getToken(token: String): Option[AuthToken] = {
-    jwtTokenService.decode(token).toOption.map(claim => AuthToken(claim.userId, claim.email, token))
+    jwtTokenService.decode(token).toOption.map(claim => AuthToken(claim.userId, claim.email, token, claim.role))
   }
 }
 

@@ -19,6 +19,14 @@ trait PackageDAO extends DAO[Package, Int, PackageTable] {
   def getByIdAndUserId(id: Int, userId: Long)(implicit ec: ExecutionContext): Future[Option[Package]] = {
     getByQuery(p => p.id === id && p.userId === userId).map(_.headOption)
   }
+
+  def getByIdAndUserIdOrCourierId(id: Int, userId: Long)(implicit ec: ExecutionContext): Future[Option[Package]] = {
+    getByQuery(p => p.id === id && (p.userId === userId || p.courierId === userId)).map(_.headOption)
+  }
+
+  def getByCourierId(id: Long): Future[Seq[Package]] = {
+    getByQuery(_.courierId === id)
+  }
 }
 
 

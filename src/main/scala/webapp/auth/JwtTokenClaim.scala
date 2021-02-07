@@ -5,4 +5,6 @@ package webapp.auth
   */
 import java.time.LocalDateTime
 
-case class JwtTokenClaim(userId: Long, email: String, expiration: LocalDateTime)
+import webapp.model.user.UserRole
+
+case class JwtTokenClaim(userId: Long, email: String, expiration: LocalDateTime, role: UserRole)

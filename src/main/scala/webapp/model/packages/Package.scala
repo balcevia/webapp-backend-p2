@@ -10,6 +10,7 @@ import webapp.model.Identifiable
 case class Package(
                     id: Option[Int],
                     userId: Long,
+                    courierId: Option[Long],
                     senderName: String,
                     senderSurname: String,
                     senderAddress: String,
@@ -20,7 +21,8 @@ case class Package(
                     receiverPhoneNumber: String,
                     image: String,
                     attachmentPath: Option[String],
-                    creationDate: LocalDate
+                    creationDate: LocalDate,
+                    status: PackageStatus
                   ) extends Identifiable[Int, Package] {
   override def withId(id: Option[Int]) = copy(id = id)
 }

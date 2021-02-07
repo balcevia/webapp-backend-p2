@@ -4,6 +4,8 @@ import webapp.model.TableWithId
 
 class UserTable(tag: Tag) extends TableWithId[User, Long](tag, "USERS") {
 
+  import webapp.model.ColumnMappers._
+
   def id = column[Option[Long]]("ID", O.PrimaryKey, O.AutoInc)
 
   def email = column[String]("EMAIL")
@@ -14,5 +16,7 @@ class UserTable(tag: Tag) extends TableWithId[User, Long](tag, "USERS") {
 
   def loginCount = column[Int]("INVALID_LOGIN_COUNT")
 
-  def * = (id, email, password, salt, loginCount) <> (User.tupled, User.unapply)
+  def userRole = column[UserRole]("ROLE")
+
+  def * = (id, email, password, salt, loginCount, userRole) <> (User.tupled, User.unapply)
 }

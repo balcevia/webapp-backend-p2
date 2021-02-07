@@ -11,9 +11,13 @@ import slick.lifted.Tag
   */
 class PackageTable(tag: Tag) extends TableWithId[Package, Int](tag, "PACKAGES") {
 
+  import webapp.model.ColumnMappers._
+
   def id = column[Option[Int]]("ID", O.PrimaryKey, O.AutoInc)
 
   def userId = column[Long]("USER_ID")
+
+  def courierId = column[Option[Long]]("COURIER_ID")
 
   def senderName = column[String]("SENDER_NAME")
 
@@ -37,5 +41,7 @@ class PackageTable(tag: Tag) extends TableWithId[Package, Int](tag, "PACKAGES") 
 
   def creationDate = column[LocalDate]("CREATION_DATE")
 
-  def * = (id, userId, senderName, senderSurname, senderAddress, senderPhoneNumber, receiverName, receiverSurname, receiverAddress, receiverPhoneNumber, image, attachmentPath, creationDate) <> (Package.tupled, Package.unapply)
+  def status = column[PackageStatus]("STATUS")
+
+  def * = (id, userId, courierId, senderName, senderSurname, senderAddress, senderPhoneNumber, receiverName, receiverSurname, receiverAddress, receiverPhoneNumber, image, attachmentPath, creationDate, status) <> (Package.tupled, Package.unapply)
 }

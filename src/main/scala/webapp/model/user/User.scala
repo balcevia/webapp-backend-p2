@@ -11,6 +11,7 @@ case class User(id: Option[Long],
                 password: Array[Byte],
                 salt: Array[Byte],
                 invalidLoginCount: Int,
+                role: UserRole
                ) extends Identifiable[Long, User] {
   override def withId(id: Option[Long]): User = copy(id = id)
 }

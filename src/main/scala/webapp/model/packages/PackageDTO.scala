@@ -16,4 +16,6 @@ case class PackageDTO(id: Option[Int],
                       receiverAddress: Option[String],
                       receiverPhoneNumber: Option[String],
                       creationDate: Option[LocalDate],
-                      image: Option[String])
+                      image: Option[String],
+                      status: Option[PackageStatus]
+                     )
